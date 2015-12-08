@@ -4,7 +4,7 @@
  */
 package com.mycompany;
 
-import java.util.Calendar;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 
@@ -19,10 +19,8 @@ public class NewSessionBean {
     public void businessMethod() {
     }
     
-    public String getTime(){
-        Calendar cal = Calendar.getInstance();
-        
-        return cal.toString();
+    public Date getTime(){
+        return new Date( System.currentTimeMillis());
     }
 
     // Add business logic below. (Right-click in editor and choose

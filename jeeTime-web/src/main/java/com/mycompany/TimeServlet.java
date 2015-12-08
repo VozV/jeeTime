@@ -7,6 +7,8 @@ package com.mycompany;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Admin
  */
 
-@WebServlet(name = "TimeServlet", urlPatterns = {"/TimeServlet"})
+@WebServlet(name = "TimeServlet", urlPatterns = {"/current","/"})
 public class TimeServlet extends HttpServlet {
 
     @EJB
@@ -37,7 +39,8 @@ public class TimeServlet extends HttpServlet {
             out.println("<title>Servlet TimeServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TimeServlet at " + request.getContextPath() + "</h1>");
+            getServletContext().getRequestDispatcher("/outTime.jsp").forward(request, response);
+//            out.println(response.getHeader("Date"));
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +58,12 @@ public class TimeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Date", timeToString(newSessionBean.getTime()));
         processRequest(request, response);
+    }
+    
+    private String timeToString(Date c){
+        return new SimpleDateFormat("HH:mm").format(c);
     }
 
     /**
@@ -69,6 +77,7 @@ public class TimeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         processRequest(request, response);
     }
 
